@@ -7,9 +7,9 @@ interface WithId {
 export default class ApiClient<T extends WithId> {
     constructor(public baseUrl: string) {}
 
-    fetch = (id: number): AxiosPromise => axios.get(`${this.baseUrl}/${id}`);
+    fetchOne = (id: number): AxiosPromise => axios.get(`${this.baseUrl}/${id}`);
 
-    fetchAll = (): AxiosPromise => axios.get(this.baseUrl);
+    fetch = (): AxiosPromise => axios.get(this.baseUrl);
 
     save = (data: T): AxiosPromise => {
         const { id } = data;

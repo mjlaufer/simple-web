@@ -3,8 +3,8 @@ import Attributes from './Attributes';
 import EventEmitter from './EventEmitter';
 
 interface ApiClient<T> {
-    fetch(id: number): AxiosPromise;
-    fetchAll(): AxiosPromise;
+    fetchOne(id: number): AxiosPromise;
+    fetch(): AxiosPromise;
     save(data: T): AxiosPromise;
     delete(id: number): AxiosPromise;
 }
@@ -16,6 +16,25 @@ interface WithId {
 export class ModelManager<T extends WithId> {
     constructor(private apiClient: ApiClient<T>) {}
 
+    create = (props: T) => new Model(new Attributes<T>(props), this.apiClient);
+
+    fetchOne = (id: number): Promise<Model<T>> =>
+        this.apiClient.fetchOne(id).then(({ data }: AxiosResponse) => this.create(data));
+
+    fetch = (): Promise<Collection<T>> =>
+        this.apiClient.fetch().then(({ data }: AxiosResponse) => {
+            const models = data.map((item: T) => this.create(item));
+
+            const collection = new Collection<T>();
+            collection.set(models);
+
+            return collection;
+        });
+}
+
+export class Collection<T extends WithId> {
+    models: Model<T>[] = [];
+
     private events = new EventEmitter();
 
     get on() {
@@ -26,19 +45,23 @@ export class ModelManager<T extends WithId> {
         return this.events.trigger;
     }
 
-    create = (props: T) => new Model(new Attributes<T>(props), this.apiClient);
+    append() {
+        this.trigger('change');
+    }
 
-    fetch = (id: number): Promise<Model<T>> =>
-        this.apiClient.fetch(id).then((response: AxiosResponse) => {
-            this.trigger('fetch');
-            return this.create(response.data);
-        });
+    set(models: Model<T>[]) {
+        this.models = models;
+        this.trigger('change');
+    }
 
-    fetchAll = (): Promise<Model<T>[]> =>
-        this.apiClient.fetchAll().then(({ data }) => {
-            this.trigger('fetch_all');
-            return data.map((item: T) => this.create(item));
-        });
+    add(model: Model<T>) {
+        this.models.push(model);
+        this.trigger('change');
+    }
+
+    remove(id: number) {
+        this.trigger('change');
+    }
 }
 
 export class Model<T extends WithId> {
@@ -60,7 +83,7 @@ export class Model<T extends WithId> {
 
     set = (propsToUpdate: T): void => {
         this.attrs.set(propsToUpdate);
-        this.trigger('set');
+        this.trigger('change');
     };
 
     save = (): Promise<void> =>

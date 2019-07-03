@@ -1,10 +1,10 @@
-import { Model, ModelManager } from '../index';
+import { Model, Collection, ModelManager } from '../index';
 
 export { default as View } from './View';
 
 export interface ViewOptions<T> {
     model?: Model<T>;
-    modelList?: Model<T>[];
+    collection?: Collection<T>;
     modelManager?: ModelManager<T>;
     sync?: string[];
 }

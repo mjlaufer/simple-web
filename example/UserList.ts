@@ -1,9 +1,9 @@
-import { Model, View } from '../src';
+import { Collection, View } from '../src';
 import { UserProps } from './index';
 import UserPanel from './UserPanel';
 
 interface ViewOptions {
-    modelList: Model<UserProps>[];
+    collection: Collection<UserProps>;
 }
 
 interface Children {
@@ -14,11 +14,11 @@ export default class UserList extends View<ViewOptions, UserProps> {
     mapChildren = (): Children => {
         const children = {} as Children;
 
-        this.options.modelList.forEach((user, i) => {
-            const id = user.get('id');
+        this.options.collection.models.forEach((user, i) => {
+            const userId = user.get('userId');
 
-            if (id) {
-                children[id] = `#user${i + 1}`;
+            if (userId) {
+                children[userId] = `#user${i + 1}`;
             }
         });
 
@@ -26,11 +26,11 @@ export default class UserList extends View<ViewOptions, UserProps> {
     };
 
     renderChildren(): void {
-        this.options.modelList.forEach(user => {
-            const id = user.get('id');
+        this.options.collection.models.forEach(user => {
+            const userId = user.get('userId');
 
-            if (id) {
-                const userPanel = new UserPanel(this.children[id], { model: user });
+            if (userId) {
+                const userPanel = new UserPanel(this.children[userId], { model: user });
                 userPanel.appendToDOM();
             }
         });
@@ -39,10 +39,10 @@ export default class UserList extends View<ViewOptions, UserProps> {
     render(): string {
         let template = '';
 
-        this.options.modelList.forEach((user, i) => {
-            const id = user.get('id');
+        this.options.collection.models.forEach((user, i) => {
+            const userId = user.get('userId');
 
-            if (id) {
+            if (userId) {
                 template += `<li class="user" id="user${i + 1}"></li>`;
             }
         });

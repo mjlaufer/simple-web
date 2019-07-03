@@ -11,8 +11,8 @@ export default abstract class View<T extends ViewOptions<ModelProps>, ModelProps
                 }
             });
             this.options.sync.forEach(eventName => {
-                if (this.options.modelManager) {
-                    this.options.modelManager.on(eventName, this.appendToDOM);
+                if (this.options.collection) {
+                    this.options.collection.on(eventName, this.appendToDOM);
                 }
             });
         }
@@ -63,9 +63,7 @@ export default abstract class View<T extends ViewOptions<ModelProps>, ModelProps
 
         this.bindEvents(templateElement.content);
         this.getChildren(templateElement.content);
-
         this.renderChildren();
-
         this.parent.append(templateElement.content);
     };
 }

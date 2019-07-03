@@ -1,8 +1,9 @@
 import UserContainer from './UserContainer';
-import { ApiClient, Model, ModelManager } from '../src';
+import { ApiClient, Model, Collection, ModelManager } from '../src';
 
 export interface UserProps {
     id?: number;
+    userId?: number;
     name?: string;
     age?: number;
 }
@@ -10,15 +11,15 @@ export interface UserProps {
 const userApiClient = new ApiClient<UserProps>('http://localhost:3000/users');
 
 const userManager = new ModelManager<UserProps>(userApiClient);
-const user = userManager.create({ name: 'Matthew' });
-user.set({ age: 30 });
+const user = userManager.create({ userId: 1, name: 'Matthew' });
+user.set({ age: 31 });
 
-userManager.fetchAll().then((userList: Model<UserProps>[]) => {
+userManager.fetch().then((userCollection: Collection<UserProps>) => {
     const viewOptions = {
         model: user,
-        modelList: userList,
+        collection: userCollection,
         modelManager: userManager,
-        sync: ['set'],
+        sync: ['change'],
     };
 
     const root = document.getElementById('root');

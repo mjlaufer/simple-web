@@ -1,2 +1,2 @@
-export { ApiClient, Attributes, ModelManager, Model } from './model';
+export { ApiClient, Attributes, ModelManager, Collection, Model } from './model';
 export { View, ViewOptions } from './view';

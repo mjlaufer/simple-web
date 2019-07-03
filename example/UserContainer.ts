@@ -1,11 +1,11 @@
-import { Model, ModelManager, View } from '../src';
+import { Model, Collection, ModelManager, View } from '../src';
 import { UserProps } from './index';
 import UserForm from './UserForm';
 import UserPanel from './UserPanel';
 
 interface ViewOptions {
     model: Model<UserProps>;
-    modelList: Model<UserProps>[];
+    collection: Collection<UserProps>;
     modelManager: ModelManager<UserProps>;
 }
 
