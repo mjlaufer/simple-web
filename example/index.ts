@@ -1,33 +1,47 @@
-import UserContainer from './UserContainer';
-import { ApiClient, Model, Collection, ModelManager } from '../src';
+import TodoHeader from './TodoHeader';
+import TodoContainer from './TodoContainer';
+import TodoFooter from './TodoFooter';
+import { ApiClient, Collection, ModelManager } from '../src';
 
-export interface UserProps {
+export interface TodoProps {
     id?: number;
-    userId?: number;
-    name?: string;
-    age?: number;
+    title?: string;
+    completed?: boolean;
 }
 
-const userApiClient = new ApiClient<UserProps>('http://localhost:3000/users');
+const todoApiClient = new ApiClient<TodoProps>('http://localhost:3000/todos');
 
-const userManager = new ModelManager<UserProps>(userApiClient);
-const user = userManager.create({ userId: 1, name: 'Matthew' });
-user.set({ age: 31 });
+const todoManager = new ModelManager<TodoProps>(todoApiClient);
 
-userManager.fetch().then((userCollection: Collection<UserProps>) => {
+todoManager.fetch().then((todoCollection: Collection<TodoProps>) => {
     const viewOptions = {
-        model: user,
-        collection: userCollection,
-        modelManager: userManager,
+        collection: todoCollection,
+        modelManager: todoManager,
         sync: ['change'],
     };
 
-    const root = document.getElementById('root');
+    const header = document.querySelector('.header');
+    const main = document.querySelector('.main');
+    const footer = document.querySelector('.footer');
 
-    if (root) {
-        const userContainer = new UserContainer(root, viewOptions);
-        userContainer.appendToDOM();
+    if (header) {
+        const todoHeader = new TodoHeader(header, viewOptions);
+        todoHeader.appendToDOM();
     } else {
-        throw new Error('Root element not found.');
+        throw new Error("Selector '.header' not found.");
     }
+
+    if (main) {
+        const todoContainer = new TodoContainer(main, viewOptions);
+        todoContainer.appendToDOM();
+    } else {
+        throw new Error("Selector '.main' not found.");
+    }
+
+    // if (footer) {
+    //     const todoFooter = new TodoFooter(footer, viewOptions);
+    //     todoFooter.appendToDOM();
+    // } else {
+    //     throw new Error("Selector '.footer' not found.");
+    // }
 });

@@ -1,3 +1,14 @@
 {
-  "users": []
+  "todos": [
+    {
+      "completed": false,
+      "title": "Finish app",
+      "id": 1
+    },
+    {
+      "completed": false,
+      "title": "Go to sleep",
+      "id": 2
+    }
+  ]
 }
