@@ -1,14 +1,20 @@
 {
+  "name": "simple-web",
+  "description": "Simple TypeScript framework for building UIs",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Matthew Laufer",
+  "repository": "mjlaufer/simple-web",
+  "main": "dist/index.js",
   "scripts": {
-    "start:db": "json-server -w db.json",
-    "start:parcel": "parcel example/index.html"
+    "example:db": "json-server -w example/db.json",
+    "example:parcel": "parcel example/index.html"
   },
   "dependencies": {
     "axios": "^0.19.0",
-    "lodash": "^4.17.11"
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.134",
     "typescript": "^3.5.2"
   }
 }
