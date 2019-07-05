@@ -1,6 +1,6 @@
 import TodoHeader from './TodoHeader';
 import TodoContainer from './TodoContainer';
-import TodoFooter from './TodoFooter';
+// import TodoFooter from './TodoFooter';
 import { ApiClient, Collection, ModelManager } from '../src';
 
 export interface TodoProps {
@@ -22,7 +22,7 @@ todoManager.fetch().then((todoCollection: Collection<TodoProps>) => {
 
     const header = document.querySelector('.header');
     const main = document.querySelector('.main');
-    const footer = document.querySelector('.footer');
+    // const footer = document.querySelector('.footer');
 
     if (header) {
         const todoHeader = new TodoHeader(header, viewOptions);

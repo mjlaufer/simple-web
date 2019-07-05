@@ -1,4 +1,4 @@
-import { Model, Collection, ModelManager, View } from '../src';
+import { Collection, ModelManager, View } from '../src';
 import { TodoProps } from './index';
 import TodoForm from './TodoForm';
 
