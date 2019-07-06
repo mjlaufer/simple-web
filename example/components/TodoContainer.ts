@@ -1,5 +1,5 @@
-import { Collection, ModelManager, View } from '../src';
-import { TodoProps } from './index';
+import { Collection, ModelManager, View } from 'simple-web';
+import { TodoProps } from '../index';
 import TodoList from './TodoList';
 
 interface ViewOptions {

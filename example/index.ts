@@ -1,7 +1,7 @@
-import TodoHeader from './TodoHeader';
-import TodoContainer from './TodoContainer';
+import TodoHeader from './components/TodoHeader';
+import TodoContainer from './components/TodoContainer';
 // import TodoFooter from './TodoFooter';
-import { ApiClient, Collection, ModelManager } from '../src';
+import { ApiClient, Collection, ModelManager } from 'simple-web';
 
 export interface TodoProps {
     id?: number;

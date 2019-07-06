@@ -1,0 +1,17 @@
+{
+  "name": "simple-web-example",
+  "version": "1.0.0",
+  "description": "Todos app using simple-web",
+  "scripts": {
+    "server": "json-server -w db.json",
+    "start": "parcel index.html"
+  },
+  "dependencies": {
+    "simple-web": "file:./.."
+  },
+  "devDependencies": {
+    "json-server": "^0.15.0",
+    "parcel-bundler": "^1.12.3",
+    "typescript": "^3.5.2"
+  }
+}

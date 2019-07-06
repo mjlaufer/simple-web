@@ -5,16 +5,19 @@
   "license": "MIT",
   "author": "Matthew Laufer",
   "repository": "mjlaufer/simple-web",
-  "main": "dist/index.js",
+  "main": "src/index.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "example:db": "json-server -w example/db.json",
-    "example:parcel": "parcel example/index.html"
+    "prebuild": "rimraf dist"
   },
   "dependencies": {
     "axios": "^0.19.0",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
+    "rimraf": "^2.6.3",
     "typescript": "^3.5.2"
   }
 }

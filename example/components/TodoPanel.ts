@@ -1,5 +1,5 @@
-import { Model, View } from '../src';
-import { TodoProps } from './index';
+import { Model, View } from 'simple-web';
+import { TodoProps } from '../index';
 
 interface ViewOptions {
     model: Model<TodoProps>;

@@ -1,13 +1,13 @@
 import { Model, Collection, ModelManager } from './index';
 
-export interface ViewOptions<T> {
+interface ViewOptions<T> {
     model?: Model<T>;
     collection?: Collection<T>;
     modelManager?: ModelManager<T>;
     sync?: string[];
 }
 
-export abstract class View<T extends ViewOptions<ModelProps>, ModelProps> {
+export default abstract class View<T extends ViewOptions<ModelProps>, ModelProps> {
     children: { [key: string]: Element } = {};
 
     constructor(public parent: Element, public options: T) {

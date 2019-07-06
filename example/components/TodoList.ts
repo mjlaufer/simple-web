@@ -1,5 +1,5 @@
-import { Collection, View } from '../src';
-import { TodoProps } from './index';
+import { Collection, View } from 'simple-web';
+import { TodoProps } from '../index';
 import TodoPanel from './TodoPanel';
 
 interface ViewOptions {
