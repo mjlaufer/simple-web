@@ -15,10 +15,10 @@ export default class TodoList extends View<ViewOptions, TodoProps> {
         const children = {} as Children;
 
         this.options.collection.models.forEach((todo, i) => {
-            const title = todo.get('title');
+            const id = todo.get('id');
 
-            if (title) {
-                children[title] = `#todo${i + 1}`;
+            if (id) {
+                children[id] = `#todo${i + 1}`;
             }
         });
 
@@ -27,10 +27,10 @@ export default class TodoList extends View<ViewOptions, TodoProps> {
 
     renderChildren(): void {
         this.options.collection.models.forEach(todo => {
-            const title = todo.get('title');
+            const id = todo.get('id');
 
-            if (title) {
-                const todoListItem = new TodoListItem(this.children[title], { ...this.options, model: todo, sync: ['change'] });
+            if (id) {
+                const todoListItem = new TodoListItem(this.children[id], { ...this.options, model: todo, sync: ['change'] });
                 todoListItem.appendToDOM();
             }
         });
@@ -40,9 +40,9 @@ export default class TodoList extends View<ViewOptions, TodoProps> {
         let template = '';
 
         this.options.collection.models.forEach((todo, i) => {
-            const title = todo.get('title');
+            const id = todo.get('id');
 
-            if (title) {
+            if (id) {
                 template += `<li class="todo" id="todo${i + 1}"></li>`;
             }
         });

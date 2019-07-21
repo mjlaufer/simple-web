@@ -26,7 +26,7 @@ export class ModelManager<T extends WithId> {
             const models = data.map((item: T) => this.create(item));
 
             const collection = new Collection<T>();
-            collection.set(models);
+            collection.reset(models);
 
             return collection;
         });
@@ -45,18 +45,32 @@ export class Collection<T extends WithId> {
         return this.events.trigger;
     }
 
-    set(models: Model<T>[]) {
-        this.models = models;
-        this.trigger('change');
-    }
-
-    append(model: Model<T>) {
+    add(model: Model<T>) {
         this.models.push(model);
         this.trigger('change');
     }
 
     remove(id: number) {
         this.models = this.models.filter((model: Model<T>) => model.get('id') !== id);
+        this.trigger('change');
+    }
+
+    reset(models: Model<T>[]) {
+        this.models = models;
+        this.trigger('change');
+    }
+
+    set(models: Model<T>[]) {
+        models.forEach((model: Model<T>) => {
+            const index = this.models.map((m: Model<T>) => m.get('id')).indexOf(model.get('id'));
+
+            if (index === -1) {
+                this.add(model);
+            } else {
+                this.models[index] = model;
+            }
+        });
+
         this.trigger('change');
     }
 }
@@ -66,10 +80,6 @@ export class Model<T extends WithId> {
 
     private events = new EventEmitter();
 
-    get get() {
-        return this.attrs.get;
-    }
-
     get on() {
         return this.events.on;
     }
@@ -78,16 +88,28 @@ export class Model<T extends WithId> {
         return this.events.trigger;
     }
 
-    set = (propsToUpdate: T): void => {
+    get get() {
+        return this.attrs.get;
+    }
+
+    set = (propsToUpdate: T): Model<T> => {
         this.attrs.set(propsToUpdate);
         this.trigger('change');
+
+        return new Model(this.attrs, this.apiClient)
     };
 
-    save = (): Promise<void> =>
-        this.apiClient
-            .save(this.attrs.getAll())
-            .then((): void => this.trigger('save'))
-            .catch((): void => this.trigger('error'));
+    save = async (): Promise<Model<T>> => {
+        try {
+            const { data } = await this.apiClient.save(this.attrs.getAll());
+            this.trigger('save');
+
+            return new Model(new Attributes<T>(data), this.apiClient);
+        } catch (err) {
+            this.trigger('error');
+            throw err;
+        }
+    };
 
     delete = (id: number): AxiosPromise => this.apiClient.delete(id);
 }

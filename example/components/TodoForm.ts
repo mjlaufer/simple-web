@@ -18,10 +18,8 @@ export default class TodoForm extends View<ViewOptions, TodoProps> {
             this.model.set({ title });
         }
 
-        const todo = this.model;
-
-        await todo.save();
-        this.options.collection.append(todo);
+        const todo = await this.model.save();
+        this.options.collection.add(todo);
     };
 
     mapEvents = (): { [key: string]: () => void } => ({

@@ -12,9 +12,9 @@ export default class TodoFooter extends View<ViewOptions, TodoProps> {
     completedTodos = this.options.collection.models.filter(todo => todo.get('completed'));
 
     mapEvents = (): { [key: string]: () => void } => ({
-        'click:.filter-all': (): void => this.options.collection.set(this.allTodos),
-        'click:.filter-active': (): void => this.options.collection.set(this.activeTodos),
-        'click:.filter-completed': (): void => this.options.collection.set(this.completedTodos),
+        'click:.filter-all': (): void => this.options.collection.reset(this.allTodos),
+        'click:.filter-active': (): void => this.options.collection.reset(this.activeTodos),
+        'click:.filter-completed': (): void => this.options.collection.reset(this.completedTodos),
     });
 
     render(): string {

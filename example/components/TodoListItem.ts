@@ -9,11 +9,11 @@ interface ViewOptions {
 
 export default class TodoPanel extends View<ViewOptions, TodoProps> {
     toggle = (): void => {
-        const { model } = this.options;
+        const { collection, model } = this.options;
         const completed = model.get('completed');
 
-        model.set({ completed: !completed })
-        model.save();
+        model.set({ completed: !completed }).save();
+        collection.set([model]);
     }
 
     destroy = async (): Promise<void> => {
@@ -33,7 +33,6 @@ export default class TodoPanel extends View<ViewOptions, TodoProps> {
 
     render(): string {
         const { model } = this.options;
-
         const completed = model.get('completed');
         const title = model.get('title');
 
