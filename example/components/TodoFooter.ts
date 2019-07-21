@@ -1,7 +1,5 @@
 import { Collection, ModelManager, View } from 'simple-web';
 import { TodoProps } from '../index';
-import TodoCount from './TodoCount';
-import TodoFilters from './TodoFilters';
 
 interface ViewOptions {
     collection: Collection<TodoProps>;
@@ -9,23 +7,33 @@ interface ViewOptions {
 }
 
 export default class TodoFooter extends View<ViewOptions, TodoProps> {
-    mapChildren = (): { [key: string]: string } => ({
-        todoCount: '.todo-count',
-        todoFilters: '.todo-filters',
+    allTodos = this.options.collection.models;
+    activeTodos = this.options.collection.models.filter(todo => !todo.get('completed'));
+    completedTodos = this.options.collection.models.filter(todo => todo.get('completed'));
+
+    mapEvents = (): { [key: string]: () => void } => ({
+        'click:.filter-all': (): void => this.options.collection.set(this.allTodos),
+        'click:.filter-active': (): void => this.options.collection.set(this.activeTodos),
+        'click:.filter-completed': (): void => this.options.collection.set(this.completedTodos),
     });
 
-    renderChildren(): void {
-        const todoCount = new TodoCount(this.children.todoCount, this.options);
-        todoCount.appendToDOM();
-
-        const todoFilters = new TodoFilters(this.children.todoFilters, this.options);
-        todoFilters.appendToDOM();
-    }
-
     render(): string {
+        const count = this.activeTodos.length;
+        const plural = count > 1 ? 's' : '';
+
         return `
-            <span class="todo-count"></span>
-            <ul class="filters"></ul>
+            <span class="todo-count">${count} item${plural} left</span>
+            <ul class="filters">
+                <li>
+                    <span class="filter-all">All</span>
+                </li>
+                <li>
+                    <span class="filter-active">Active</span>
+                </li>
+                <li>
+                    <span class="filter-completed">Completed</span>
+                </li>
+            </ul>
         `;
     }
 }

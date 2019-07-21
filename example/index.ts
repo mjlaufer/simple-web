@@ -1,6 +1,6 @@
 import TodoHeader from './components/TodoHeader';
 import TodoContainer from './components/TodoContainer';
-// import TodoFooter from './TodoFooter';
+import TodoFooter from './components/TodoFooter';
 import { ApiClient, Collection, ModelManager } from 'simple-web';
 
 export interface TodoProps {
@@ -22,7 +22,7 @@ todoManager.fetch().then((todoCollection: Collection<TodoProps>) => {
 
     const header = document.querySelector('.header');
     const main = document.querySelector('.main');
-    // const footer = document.querySelector('.footer');
+    const footer = document.querySelector('.footer');
 
     if (header) {
         const todoHeader = new TodoHeader(header, viewOptions);
@@ -38,10 +38,10 @@ todoManager.fetch().then((todoCollection: Collection<TodoProps>) => {
         throw new Error("Selector '.main' not found.");
     }
 
-    // if (footer) {
-    //     const todoFooter = new TodoFooter(footer, viewOptions);
-    //     todoFooter.appendToDOM();
-    // } else {
-    //     throw new Error("Selector '.footer' not found.");
-    // }
+    if (footer) {
+        const todoFooter = new TodoFooter(footer, viewOptions);
+        todoFooter.appendToDOM();
+    } else {
+        throw new Error("Selector '.footer' not found.");
+    }
 });

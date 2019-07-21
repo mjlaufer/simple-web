@@ -5,6 +5,7 @@ import TodoList from './TodoList';
 interface ViewOptions {
     collection: Collection<TodoProps>;
     modelManager: ModelManager<TodoProps>;
+    sync: string[];
 }
 
 export default class TodoContainer extends View<ViewOptions, TodoProps> {

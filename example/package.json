@@ -7,7 +7,7 @@
     "start": "parcel index.html"
   },
   "dependencies": {
-    "simple-web": "file:./.."
+    "simple-web": "file:.."
   },
   "devDependencies": {
     "json-server": "^0.15.0",

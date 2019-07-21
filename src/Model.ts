@@ -45,21 +45,18 @@ export class Collection<T extends WithId> {
         return this.events.trigger;
     }
 
-    append() {
-        this.trigger('change');
-    }
-
     set(models: Model<T>[]) {
         this.models = models;
         this.trigger('change');
     }
 
-    add(model: Model<T>) {
+    append(model: Model<T>) {
         this.models.push(model);
         this.trigger('change');
     }
 
     remove(id: number) {
+        this.models = this.models.filter((model: Model<T>) => model.get('id') !== id);
         this.trigger('change');
     }
 }
@@ -89,16 +86,8 @@ export class Model<T extends WithId> {
     save = (): Promise<void> =>
         this.apiClient
             .save(this.attrs.getAll())
-            .then(
-                (): void => {
-                    this.trigger('save');
-                },
-            )
-            .catch(
-                (): void => {
-                    this.trigger('error');
-                },
-            );
+            .then((): void => this.trigger('save'))
+            .catch((): void => this.trigger('error'));
 
     delete = (id: number): AxiosPromise => this.apiClient.delete(id);
 }

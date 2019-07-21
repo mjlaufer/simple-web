@@ -16,8 +16,6 @@ export default abstract class View<T extends ViewOptions<ModelProps>, ModelProps
                 if (this.options.model) {
                     this.options.model.on(eventName, this.appendToDOM);
                 }
-            });
-            this.options.sync.forEach(eventName => {
                 if (this.options.collection) {
                     this.options.collection.on(eventName, this.appendToDOM);
                 }

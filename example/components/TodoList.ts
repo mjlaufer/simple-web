@@ -1,6 +1,6 @@
 import { Collection, View } from 'simple-web';
 import { TodoProps } from '../index';
-import TodoPanel from './TodoPanel';
+import TodoListItem from './TodoListItem';
 
 interface ViewOptions {
     collection: Collection<TodoProps>;
@@ -30,8 +30,8 @@ export default class TodoList extends View<ViewOptions, TodoProps> {
             const title = todo.get('title');
 
             if (title) {
-                const todoPanel = new TodoPanel(this.children[title], { model: todo });
-                todoPanel.appendToDOM();
+                const todoListItem = new TodoListItem(this.children[title], { ...this.options, model: todo, sync: ['change'] });
+                todoListItem.appendToDOM();
             }
         });
     }
