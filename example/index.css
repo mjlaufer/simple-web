@@ -255,7 +255,7 @@ body {
     margin-bottom: -1px;
 }
 
-.footer {
+.filter-container {
     color: #777;
     padding: 10px 15px;
     height: 20px;
@@ -263,7 +263,7 @@ body {
     border-top: 1px solid #e6e6e6;
 }
 
-.footer:before {
+.filter-container:before {
     content: '';
     position: absolute;
     right: 0;
