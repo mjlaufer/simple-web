@@ -1,5 +1,5 @@
-import TodoApp from './components/TodoApp';
 import { ApiClient, Collection, ModelManager } from 'simple-web';
+import TodoApp from './components/TodoApp';
 
 export interface TodoProps {
     id?: number;

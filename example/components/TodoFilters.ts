@@ -12,18 +12,26 @@ export default class TodoFilters extends View<ViewOptions, TodoProps> {
 
         return {
             'click:.filter-all': (): void => {
-                modelManager.fetch().then((todoCollection: Collection<TodoProps>) => collection.reset(todoCollection.models));
+                modelManager
+                    .fetch()
+                    .then((todoCollection: Collection<TodoProps>) =>
+                        collection.reset(todoCollection.models),
+                    );
             },
             'click:.filter-active': (): void => {
                 modelManager.fetch().then((todoCollection: Collection<TodoProps>) => {
-                    const activeTodos = todoCollection.models.filter(todo => !todo.get('completed'));
+                    const activeTodos = todoCollection.models.filter(
+                        todo => !todo.get('completed'),
+                    );
                     collection.reset(activeTodos);
                 });
             },
             'click:.filter-completed': (): void => {
                 modelManager.fetch().then((todoCollection: Collection<TodoProps>) => {
-                    const completedTodos = todoCollection.models.filter(todo => todo.get('completed') === true);
-                    collection.reset(completedTodos)
+                    const completedTodos = todoCollection.models.filter(
+                        todo => todo.get('completed') === true,
+                    );
+                    collection.reset(completedTodos);
                 });
             },
         };

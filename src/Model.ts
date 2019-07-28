@@ -95,16 +95,15 @@ export class Model<T extends WithId> {
     set = (propsToUpdate: T): Model<T> => {
         this.attrs.set(propsToUpdate);
         this.trigger('change');
-
-        return new Model(this.attrs, this.apiClient)
+        return this;
     };
 
     save = async (): Promise<Model<T>> => {
         try {
             const { data } = await this.apiClient.save(this.attrs.getAll());
             this.trigger('save');
-
-            return new Model(new Attributes<T>(data), this.apiClient);
+            this.set(data);
+            return this;
         } catch (err) {
             this.trigger('error');
             throw err;

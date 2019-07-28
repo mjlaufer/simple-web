@@ -14,7 +14,7 @@ export default class TodoPanel extends View<ViewOptions, TodoProps> {
 
         model.set({ completed: !completed }).save();
         collection.set([model]);
-    }
+    };
 
     destroy = async (): Promise<void> => {
         const { collection, model } = this.options;
@@ -24,7 +24,7 @@ export default class TodoPanel extends View<ViewOptions, TodoProps> {
             await model.delete(id);
             collection.remove(id);
         }
-    }
+    };
 
     mapEvents = (): { [key: string]: () => void } => ({
         'click:.toggle': this.toggle,
