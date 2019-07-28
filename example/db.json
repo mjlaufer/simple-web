@@ -11,7 +11,7 @@
       "id": 15
     },
     {
-      "completed": false,
+      "completed": true,
       "title": "third",
       "id": 16
     }

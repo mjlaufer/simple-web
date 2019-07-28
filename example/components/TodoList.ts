@@ -1,9 +1,13 @@
-import { Collection, View } from 'simple-web';
+import { Collection, Model, View } from 'simple-web';
 import { TodoProps } from '../index';
 import TodoListItem from './TodoListItem';
+import { Filter } from './TodoApp';
 
 interface ViewOptions {
     collection: Collection<TodoProps>;
+    visibleTodos: Model<TodoProps>[];
+    selectedFilter: Filter;
+    setVisibleTodos: (filter: Filter) => void;
 }
 
 interface Children {
@@ -14,7 +18,7 @@ export default class TodoList extends View<ViewOptions, TodoProps> {
     mapChildren = (): Children => {
         const children = {} as Children;
 
-        this.options.collection.models.forEach((todo, i) => {
+        this.options.visibleTodos.forEach((todo, i) => {
             const id = todo.get('id');
 
             if (id) {
@@ -26,7 +30,7 @@ export default class TodoList extends View<ViewOptions, TodoProps> {
     };
 
     renderChildren(): void {
-        this.options.collection.models.forEach(todo => {
+        this.options.visibleTodos.forEach(todo => {
             const id = todo.get('id');
 
             if (id) {
@@ -43,7 +47,7 @@ export default class TodoList extends View<ViewOptions, TodoProps> {
     render(): string {
         let template = '';
 
-        this.options.collection.models.forEach((todo, i) => {
+        this.options.visibleTodos.forEach((todo, i) => {
             const id = todo.get('id');
 
             if (id) {

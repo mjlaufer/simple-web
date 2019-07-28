@@ -4,13 +4,41 @@ import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 import TodoFilters from './TodoFilters';
 
+export enum Filter {
+    all = 'ALL',
+    active = 'ACTIVE',
+    completed = 'COMPLETED',
+}
+
 interface ViewOptions {
     collection: Collection<TodoProps>;
     modelManager: ModelManager<TodoProps>;
     sync: string[];
 }
 
-export default class TodoContainer extends View<ViewOptions, TodoProps> {
+export default class TodoApp extends View<ViewOptions, TodoProps> {
+    selectedFilter = Filter.all;
+    visibleTodos = [...this.options.collection.models];
+
+    setVisibleTodos = (filter: Filter) => {
+        this.selectedFilter = filter;
+
+        const { models } = this.options.collection;
+
+        switch (filter) {
+            case Filter.active:
+                this.visibleTodos = models.filter(todo => !todo.get('completed'));
+                break;
+            case Filter.completed:
+                this.visibleTodos = models.filter(todo => todo.get('completed') === true);
+                break;
+            default:
+                this.visibleTodos = [...models];
+        }
+
+        this.options.collection.trigger('change');
+    };
+
     mapChildren = (): { [key: string]: string } => ({
         form: '.todo-form',
         todoList: '.todo-list',
@@ -18,13 +46,25 @@ export default class TodoContainer extends View<ViewOptions, TodoProps> {
     });
 
     renderChildren(): void {
-        const todoForm = new TodoForm(this.children.form, this.options);
+        const todoForm = new TodoForm(this.children.form, {
+            ...this.options,
+            selectedFilter: this.selectedFilter,
+            setVisibleTodos: this.setVisibleTodos,
+        });
         todoForm.appendToDOM();
 
-        const todoList = new TodoList(this.children.todoList, this.options);
+        const todoList = new TodoList(this.children.todoList, {
+            ...this.options,
+            visibleTodos: this.visibleTodos,
+            selectedFilter: this.selectedFilter,
+            setVisibleTodos: this.setVisibleTodos,
+        });
         todoList.appendToDOM();
 
-        const todoFilters = new TodoFilters(this.children.filters, this.options);
+        const todoFilters = new TodoFilters(this.children.filters, {
+            ...this.options,
+            setVisibleTodos: this.setVisibleTodos,
+        });
         todoFilters.appendToDOM();
     }
 

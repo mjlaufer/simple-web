@@ -1,9 +1,12 @@
 import { Collection, Model, View } from 'simple-web';
 import { TodoProps } from '../index';
+import { Filter } from './TodoApp';
 
 interface ViewOptions {
     collection: Collection<TodoProps>;
     model: Model<TodoProps>;
+    selectedFilter: Filter;
+    setVisibleTodos: (filter: Filter) => void;
     sync: string[];
 }
 
@@ -17,12 +20,13 @@ export default class TodoPanel extends View<ViewOptions, TodoProps> {
     };
 
     destroy = async (): Promise<void> => {
-        const { collection, model } = this.options;
+        const { collection, model, selectedFilter, setVisibleTodos } = this.options;
         const id = model.get('id');
 
         if (id) {
             await model.delete(id);
             collection.remove(id);
+            setVisibleTodos(selectedFilter);
         }
     };
 
