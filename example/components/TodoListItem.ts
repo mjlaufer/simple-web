@@ -7,7 +7,6 @@ interface ViewOptions {
     model: Model<TodoProps>;
     selectedFilter: Filter;
     setVisibleTodos: (filter: Filter) => void;
-    sync: string[];
 }
 
 export default class TodoPanel extends View<ViewOptions, TodoProps> {

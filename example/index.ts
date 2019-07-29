@@ -15,7 +15,6 @@ todoManager.fetch().then((todoCollection: Collection<TodoProps>) => {
     const viewOptions = {
         collection: todoCollection,
         modelManager: todoManager,
-        sync: ['change'],
     };
 
     const app = document.querySelector('.todoapp');

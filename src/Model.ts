@@ -47,17 +47,17 @@ export class Collection<T extends WithId> {
 
     add(model: Model<T>) {
         this.models.push(model);
-        this.trigger('change');
+        this.trigger('add');
     }
 
     remove(id: number) {
         this.models = this.models.filter((model: Model<T>) => model.get('id') !== id);
-        this.trigger('change');
+        this.trigger('remove');
     }
 
     reset(models: Model<T>[]) {
         this.models = models;
-        this.trigger('change');
+        this.trigger('reset');
     }
 
     set(models: Model<T>[]) {
@@ -68,10 +68,9 @@ export class Collection<T extends WithId> {
                 this.add(model);
             } else {
                 this.models[index] = model;
+                this.trigger('change');
             }
         });
-
-        this.trigger('change');
     }
 }
 

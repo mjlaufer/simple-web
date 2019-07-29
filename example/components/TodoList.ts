@@ -37,7 +37,6 @@ export default class TodoList extends View<ViewOptions, TodoProps> {
                 const todoListItem = new TodoListItem(this.children[id], {
                     ...this.options,
                     model: todo,
-                    sync: ['change'],
                 });
                 todoListItem.appendToDOM();
             }

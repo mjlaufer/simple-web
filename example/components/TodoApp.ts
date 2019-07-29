@@ -13,7 +13,6 @@ export enum Filter {
 interface ViewOptions {
     collection: Collection<TodoProps>;
     modelManager: ModelManager<TodoProps>;
-    sync: string[];
 }
 
 export default class TodoApp extends View<ViewOptions, TodoProps> {
