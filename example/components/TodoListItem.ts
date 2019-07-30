@@ -9,7 +9,7 @@ interface ViewOptions {
     setVisibleTodos: (filter: Filter) => void;
 }
 
-export default class TodoPanel extends View<ViewOptions, TodoProps> {
+export default class TodoListItem extends View<ViewOptions, TodoProps> {
     toggle = (): void => {
         const { collection, model } = this.options;
         const completed = model.get('completed');

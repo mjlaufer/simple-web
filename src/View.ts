@@ -11,20 +11,27 @@ export default abstract class View<T extends ViewOptions<ModelProps>, ModelProps
     children: { [key: string]: Element } = {};
 
     constructor(public parent: Element, public options: T) {
-        let events = ['add', 'change', 'remove', 'reset'];
+        let modelEvents = ['change'];
+        let collectionEvents = ['add', 'change', 'remove', 'reset'];
 
-        if (this.options.customEvents) {
-            events = events.concat(this.options.customEvents);
+        const { customEvents, model, collection } = this.options;
+
+        if (customEvents) {
+            modelEvents = modelEvents.concat(customEvents);
+            collectionEvents = collectionEvents.concat(customEvents);
         }
 
-        events.forEach(eventName => {
-            if (this.options.model) {
-                this.options.model.on(eventName, this.appendToDOM);
-            }
-            if (this.options.collection) {
-                this.options.collection.on(eventName, this.appendToDOM);
-            }
-        });
+        if (model) {
+            modelEvents.forEach(eventName => {
+                model.on(eventName, this.appendToDOM, this);
+            });
+        }
+
+        if (collection) {
+            collectionEvents.forEach(eventName => {
+                collection.on(eventName, this.appendToDOM, this);
+            });
+        }
     }
 
     abstract render(): string;
@@ -64,7 +71,7 @@ export default abstract class View<T extends ViewOptions<ModelProps>, ModelProps
 
     renderChildren(): void {}
 
-    appendToDOM = (): void => {
+    appendToDOM(): void {
         this.parent.innerHTML = '';
 
         const templateElement = document.createElement('template');
@@ -74,5 +81,5 @@ export default abstract class View<T extends ViewOptions<ModelProps>, ModelProps
         this.getChildren(templateElement.content);
         this.renderChildren();
         this.parent.append(templateElement.content);
-    };
+    }
 }

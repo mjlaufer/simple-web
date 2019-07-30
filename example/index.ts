@@ -15,6 +15,7 @@ todoManager.fetch().then((todoCollection: Collection<TodoProps>) => {
     const viewOptions = {
         collection: todoCollection,
         modelManager: todoManager,
+        customEvents: ['set-visible-todos'],
     };
 
     const app = document.querySelector('.todoapp');

@@ -35,7 +35,7 @@ export default class TodoApp extends View<ViewOptions, TodoProps> {
                 this.visibleTodos = [...models];
         }
 
-        this.options.collection.trigger('change');
+        this.options.collection.trigger('set-visible-todos');
     };
 
     mapChildren = (): { [key: string]: string } => ({
