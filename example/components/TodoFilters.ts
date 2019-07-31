@@ -1,4 +1,4 @@
-import { Collection, View } from 'simple-web';
+import { Collection, EventListener, View } from 'simple-web';
 import { TodoProps } from '../index';
 import { Filter } from './TodoApp';
 
@@ -8,7 +8,7 @@ interface ViewOptions {
 }
 
 export default class TodoFilters extends View<ViewOptions, TodoProps> {
-    mapEvents = (): { [key: string]: () => void } => ({
+    mapEvents = (): { [key: string]: EventListener } => ({
         'click:.filter-all': () => this.options.setVisibleTodos(Filter.all),
         'click:.filter-active': () => this.options.setVisibleTodos(Filter.active),
         'click:.filter-completed': () => this.options.setVisibleTodos(Filter.completed),

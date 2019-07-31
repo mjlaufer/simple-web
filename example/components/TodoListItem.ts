@@ -1,4 +1,4 @@
-import { Collection, Model, View } from 'simple-web';
+import { Collection, EventListener, Model, View } from 'simple-web';
 import { TodoProps } from '../index';
 import { Filter } from './TodoApp';
 
@@ -29,7 +29,7 @@ export default class TodoListItem extends View<ViewOptions, TodoProps> {
         }
     };
 
-    mapEvents = (): { [key: string]: () => void } => ({
+    mapEvents = (): { [key: string]: EventListener } => ({
         'click:.toggle': this.toggle,
         'click:.destroy': this.destroy,
     });

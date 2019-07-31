@@ -1,8 +1,9 @@
-import { Collection, ModelManager, View } from 'simple-web';
+import { Collection, EventListener, ModelManager, View } from 'simple-web';
 import { TodoProps } from '../index';
-import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 import TodoFilters from './TodoFilters';
+
+const ENTER_KEY_CODE = 13;
 
 export enum Filter {
     all = 'ALL',
@@ -38,20 +39,41 @@ export default class TodoApp extends View<ViewOptions, TodoProps> {
         this.options.collection.trigger('set-visible-todos');
     };
 
+    handleNewTodoKeydown = async (e: KeyboardEvent | Event): Promise<void> => {
+        if (!("keyCode" in e) || e.keyCode !== ENTER_KEY_CODE) {
+            return;
+        }
+
+        e.preventDefault();
+
+        const { collection, modelManager } = this.options;
+
+        const newTodo = modelManager.create({
+            completed: false,
+        });
+
+        const input = this.parent.querySelector('input');
+
+        if (input) {
+            const title = input.value;
+            newTodo.set({ title });
+        }
+
+        const todo = await newTodo.save();
+        collection.add(todo);
+        this.setVisibleTodos(this.selectedFilter);
+    };
+
+    mapEvents = (): { [key: string]: EventListener } => ({
+        'keydown:.new-todo': this.handleNewTodoKeydown,
+    });
+
     mapChildren = (): { [key: string]: string } => ({
-        form: '.todo-form',
         todoList: '.todo-list',
         filters: '.filter-container',
     });
 
     renderChildren(): void {
-        const todoForm = new TodoForm(this.children.form, {
-            ...this.options,
-            selectedFilter: this.selectedFilter,
-            setVisibleTodos: this.setVisibleTodos,
-        });
-        todoForm.appendToDOM();
-
         const todoList = new TodoList(this.children.todoList, {
             ...this.options,
             visibleTodos: this.visibleTodos,
@@ -70,7 +92,7 @@ export default class TodoApp extends View<ViewOptions, TodoProps> {
     render(): string {
         return `
             <h1>todos</h1>
-            <section class="todo-form"></section>
+            <input class="new-todo" placeholder="What needs to be done?" autofocus>
             <section class="main">
                 <label for="toggle-all">Mark all as complete</label>
                 <ul class="todo-list"></ul>

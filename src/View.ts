@@ -1,5 +1,7 @@
 import { Model, Collection, ModelManager } from './index';
 
+export type EventListener = (e: Event | KeyboardEvent) => void | Promise<void>;
+
 interface ViewOptions<T> {
     model?: Model<T>;
     collection?: Collection<T>;
@@ -7,7 +9,7 @@ interface ViewOptions<T> {
     customEvents?: string[];
 }
 
-export default abstract class View<T extends ViewOptions<ModelProps>, ModelProps> {
+export abstract class View<T extends ViewOptions<ModelProps>, ModelProps> {
     children: { [key: string]: Element } = {};
 
     constructor(public parent: Element, public options: T) {
@@ -53,7 +55,7 @@ export default abstract class View<T extends ViewOptions<ModelProps>, ModelProps
         }
     };
 
-    mapEvents = (): { [key: string]: () => void } => {
+    mapEvents = (): { [key: string]: EventListener } => {
         return {};
     };
 
