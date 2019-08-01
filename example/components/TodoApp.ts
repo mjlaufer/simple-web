@@ -1,4 +1,4 @@
-import { Collection, EventListener, ModelManager, View } from 'simple-web';
+import { Collection, EventListener, Model, ModelManager, View } from 'simple-web';
 import { TodoProps } from '../index';
 import TodoList from './TodoList';
 import TodoFilters from './TodoFilters';
@@ -17,25 +17,38 @@ interface ViewOptions {
 }
 
 export default class TodoApp extends View<ViewOptions, TodoProps> {
-    selectedFilter = Filter.all;
-    visibleTodos = [...this.options.collection.models];
+    selectedFilter = this.getFilter();
+    visibleTodos = this.getVisibleTodos();
 
-    setVisibleTodos = (filter: Filter) => {
-        this.selectedFilter = filter;
+    private getFilter(): Filter {
+        const hashParam = window.location.hash.split('#/')[1] || '';
 
+        switch (hashParam.toUpperCase()) {
+            case Filter.active:
+                return Filter.active;
+            case Filter.completed:
+                return Filter.completed;
+            default:
+                return Filter.all;
+        }
+    }
+
+    private getVisibleTodos(): Model<TodoProps>[] {
         const { models } = this.options.collection;
 
-        switch (filter) {
+        switch (this.selectedFilter) {
             case Filter.active:
-                this.visibleTodos = models.filter(todo => !todo.get('completed'));
-                break;
+                return models.filter(todo => !todo.get('completed'));
             case Filter.completed:
-                this.visibleTodos = models.filter(todo => todo.get('completed') === true);
-                break;
+                return models.filter(todo => todo.get('completed') === true);
             default:
-                this.visibleTodos = [...models];
+                return [...models];
         }
+    }
 
+    setVisibleTodos = (filter: Filter): void => {
+        this.selectedFilter = filter;
+        this.visibleTodos = this.getVisibleTodos();
         this.options.collection.trigger('set-visible-todos');
     };
 
@@ -84,6 +97,7 @@ export default class TodoApp extends View<ViewOptions, TodoProps> {
 
         const todoFilters = new TodoFilters(this.children.filters, {
             ...this.options,
+            selectedFilter: this.selectedFilter,
             setVisibleTodos: this.setVisibleTodos,
         });
         todoFilters.appendToDOM();

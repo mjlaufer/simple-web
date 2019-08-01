@@ -4,31 +4,34 @@ import { Filter } from './TodoApp';
 
 interface ViewOptions {
     collection: Collection<TodoProps>;
+    selectedFilter: Filter;
     setVisibleTodos: (filter: Filter) => void;
 }
 
 export default class TodoFilters extends View<ViewOptions, TodoProps> {
     mapEvents = (): { [key: string]: EventListener } => ({
-        'click:.filter-all': () => this.options.setVisibleTodos(Filter.all),
-        'click:.filter-active': () => this.options.setVisibleTodos(Filter.active),
-        'click:.filter-completed': () => this.options.setVisibleTodos(Filter.completed),
+        'click:#filter-all': () => this.options.setVisibleTodos(Filter.all),
+        'click:#filter-active': () => this.options.setVisibleTodos(Filter.active),
+        'click:#filter-completed': () => this.options.setVisibleTodos(Filter.completed),
     });
 
     render(): string {
-        const count = this.options.collection.models.filter(todo => !todo.get('completed')).length;
+        const { collection, selectedFilter } = this.options;
+
+        const count = collection.models.filter(todo => !todo.get('completed')).length;
         const plural = count !== 1 ? 's' : '';
 
         return `
             <span class="todo-count">${count} item${plural} left</span>
             <ul class="filters">
                 <li>
-                    <span class="filter-all">All</span>
+                    <a href="#/" ${selectedFilter === Filter.all ? 'class="selected"' : ''} id="filter-all">All</a>
                 </li>
                 <li>
-                    <span class="filter-active">Active</span>
+                    <a href="#/active" ${selectedFilter === Filter.active ? 'class="selected"' : ''} id="filter-active">Active</a>
                 </li>
                 <li>
-                    <span class="filter-completed">Completed</span>
+                    <a href="#/completed" ${selectedFilter === Filter.completed ? 'class="selected"' : ''} id="filter-completed">Completed</a>
                 </li>
             </ul>
         `;
