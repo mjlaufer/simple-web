@@ -11,11 +11,12 @@ interface ViewOptions {
 
 export default class TodoListItem extends View<ViewOptions, TodoProps> {
     toggle = (): void => {
-        const { collection, model } = this.options;
+        const { collection, model, selectedFilter, setVisibleTodos } = this.options;
         const completed = model.get('completed');
 
         model.set({ completed: !completed }).save();
         collection.set([model]);
+        setVisibleTodos(selectedFilter);
     };
 
     destroy = async (): Promise<void> => {

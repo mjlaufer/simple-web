@@ -25,13 +25,19 @@ export default class TodoFilters extends View<ViewOptions, TodoProps> {
             <span class="todo-count">${count} item${plural} left</span>
             <ul class="filters">
                 <li>
-                    <a href="#/" ${selectedFilter === Filter.all ? 'class="selected"' : ''} id="filter-all">All</a>
+                    <a href="#/" ${
+                        selectedFilter === Filter.all ? 'class="selected"' : ''
+                    } id="filter-all">All</a>
                 </li>
                 <li>
-                    <a href="#/active" ${selectedFilter === Filter.active ? 'class="selected"' : ''} id="filter-active">Active</a>
+                    <a href="#/active" ${
+                        selectedFilter === Filter.active ? 'class="selected"' : ''
+                    } id="filter-active">Active</a>
                 </li>
                 <li>
-                    <a href="#/completed" ${selectedFilter === Filter.completed ? 'class="selected"' : ''} id="filter-completed">Completed</a>
+                    <a href="#/completed" ${
+                        selectedFilter === Filter.completed ? 'class="selected"' : ''
+                    } id="filter-completed">Completed</a>
                 </li>
             </ul>
         `;

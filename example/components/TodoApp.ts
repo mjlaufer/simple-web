@@ -53,7 +53,7 @@ export default class TodoApp extends View<ViewOptions, TodoProps> {
     };
 
     handleNewTodoKeydown = async (e: KeyboardEvent | Event): Promise<void> => {
-        if (!("keyCode" in e) || e.keyCode !== ENTER_KEY_CODE) {
+        if (!('keyCode' in e) || e.keyCode !== ENTER_KEY_CODE) {
             return;
         }
 
