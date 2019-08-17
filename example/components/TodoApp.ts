@@ -66,7 +66,6 @@ export default class TodoApp extends View<ViewOptions, TodoProps> {
         });
 
         const input = this.parent.querySelector('input');
-
         if (input) {
             const title = input.value;
             newTodo.set({ title });
@@ -77,7 +76,37 @@ export default class TodoApp extends View<ViewOptions, TodoProps> {
         this.setVisibleTodos(this.selectedFilter);
     };
 
+    handleToggleAllClick = (): void => {
+        const { collection } = this.options;
+
+        let shouldMarkCompleted = false;
+
+        for (let todo of collection.models) {
+            const completed = todo.get('completed');
+
+            if (!completed) {
+                shouldMarkCompleted = true;
+            }
+        }
+
+        for (let todo of collection.models) {
+            const completed = todo.get('completed');
+
+            if (completed !== shouldMarkCompleted) {
+                todo.set({ completed: shouldMarkCompleted }).save();
+            }
+        }
+
+        collection.reset(collection.models);
+
+        const checkbox = document.getElementById('toggle-all') as HTMLInputElement;
+        if (checkbox) {
+            checkbox.checked = shouldMarkCompleted;
+        }
+    };
+
     mapEvents = (): { [key: string]: EventListener } => ({
+        'change:.toggle-all': this.handleToggleAllClick,
         'keydown:.new-todo': this.handleNewTodoKeydown,
     });
 
@@ -104,10 +133,16 @@ export default class TodoApp extends View<ViewOptions, TodoProps> {
     }
 
     render(): string {
+        const { models } = this.options.collection;
+        const areAllCompleted = models.filter(todo => !todo.get('completed')).length === 0;
+
         return `
             <h1>todos</h1>
             <input class="new-todo" placeholder="What needs to be done?" autofocus>
             <section class="main">
+                <input id="toggle-all" class="toggle-all" type="checkbox" ${
+                    areAllCompleted ? 'checked' : ''
+                }>
                 <label for="toggle-all">Mark all as complete</label>
                 <ul class="todo-list"></ul>
             </section>
