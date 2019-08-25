@@ -36,6 +36,8 @@ export abstract class View<T extends ViewOptions<ModelProps>, ModelProps> {
         }
     }
 
+    componentDidMount(): void {}
+
     abstract render(): string;
 
     mapChildren = (): { [key: string]: string } => {
@@ -83,5 +85,6 @@ export abstract class View<T extends ViewOptions<ModelProps>, ModelProps> {
         this.getChildren(templateElement.content);
         this.renderChildren();
         this.parent.append(templateElement.content);
+        this.componentDidMount();
     }
 }

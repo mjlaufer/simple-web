@@ -46,6 +46,13 @@ export default class TodoApp extends View<ViewOptions, TodoProps> {
         }
     }
 
+    componentDidMount(): void {
+        const input = this.parent.querySelector('input');
+        if (input) {
+            input.focus();
+        }
+    }
+
     setVisibleTodos = (filter: Filter): void => {
         this.selectedFilter = filter;
         this.visibleTodos = this.getVisibleTodos();
@@ -68,6 +75,9 @@ export default class TodoApp extends View<ViewOptions, TodoProps> {
         const input = this.parent.querySelector('input');
         if (input) {
             const title = input.value;
+            if (!title) {
+                return;
+            }
             newTodo.set({ title });
         }
 
