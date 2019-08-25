@@ -1,4 +1,4 @@
-import { Collection, EventListener, Model, View } from 'simple-web';
+import { Collection, EventListener, Model, View } from 'type-ui';
 import { TodoProps } from '../index';
 import { Filter } from './TodoApp';
 

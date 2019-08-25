@@ -1,13 +1,13 @@
 {
-  "name": "simple-web-example",
+  "name": "type-ui-example",
   "version": "1.0.0",
-  "description": "Todos app using simple-web",
+  "description": "Todos app using type-ui",
   "scripts": {
     "server": "json-server -w db.json",
     "start": "parcel index.html"
   },
   "dependencies": {
-    "simple-web": "file:.."
+    "type-ui": "file:.."
   },
   "devDependencies": {
     "json-server": "^0.15.0",

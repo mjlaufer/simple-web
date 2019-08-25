@@ -1,4 +1,4 @@
-import { Collection, Model, View } from 'simple-web';
+import { Collection, Model, View } from 'type-ui';
 import { TodoProps } from '../index';
 import TodoListItem from './TodoListItem';
 import { Filter } from './TodoApp';

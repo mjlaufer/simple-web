@@ -1,5 +1,5 @@
-# simple-web
+# Type-UI
 
-This is a simple web framework for building user interfaces in JavaScript and TypeScript.
+This is a simple TypeScript framework for building user interfaces.
 
 Inspired by Backbone.js and React.

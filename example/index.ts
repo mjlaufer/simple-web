@@ -1,4 +1,4 @@
-import { ApiClient, Collection, ModelManager } from 'simple-web';
+import { ApiClient, Collection, ModelManager } from 'type-ui';
 import TodoApp from './components/TodoApp';
 
 export interface TodoProps {

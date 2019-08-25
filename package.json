@@ -1,10 +1,10 @@
 {
-  "name": "simple-web",
+  "name": "type-ui",
   "description": "Simple TypeScript framework for building UIs",
   "version": "0.1.0",
   "license": "MIT",
   "author": "Matthew Laufer",
-  "repository": "mjlaufer/simple-web",
+  "repository": "mjlaufer/type-ui",
   "main": "src/index.ts",
   "files": [
     "dist"
